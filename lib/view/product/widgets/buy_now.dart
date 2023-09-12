@@ -4,8 +4,8 @@ import 'package:fakestore/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//List<Product> cartList = [];
-double cartsum = 0;
+List<Product> orderList = [];
+// double cartsum = 0;
 
 class BuyNowSection extends StatelessWidget {
   const BuyNowSection({
@@ -31,8 +31,7 @@ class BuyNowSection extends StatelessWidget {
               context
                   .read<GetCartBlocBloc>()
                   .add(UpdateCartEvent(addToCart: true, product: productData));
-              // cartList.add(productData);
-              // cartsum += double.tryParse(productData.price) ?? 0;
+
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Product Added to Cart'),
@@ -54,8 +53,39 @@ class BuyNowSection extends StatelessWidget {
           child: ElevatedButton(
             style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.deepPurple)),
-            onPressed: () {},
-            child: const Text('Buy Now'),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Confirm Order',
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel',
+                              style: TextStyle(color: Colors.red))),
+                      TextButton(
+                          onPressed: () {
+                            orderList.add(productData);
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Confirm',
+                            style: TextStyle(color: Colors.green),
+                          ))
+                    ],
+                  );
+                },
+              );
+            },
+            child: const Text(
+              'Buy Now',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         ),
       ],

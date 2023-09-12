@@ -100,7 +100,10 @@ class CartScreen extends StatelessWidget {
                           width: double.infinity,
                           child: Center(
                             child: Text(
-                                "Total Prize :\$ ${state.cartItems.fold<double>(0.0, (previousValue, element) => previousValue + (double.tryParse(element.price) ?? 0))}"),
+                              "Total Prize :\$ ${state.cartItems.fold<double>(0.0, (previousValue, element) => previousValue + (double.tryParse(element.price) ?? 0))}",
+                              style:
+                                  TextStyle(color: Colors.green, fontSize: 16),
+                            ),
                           ),
                         )
                       : const SizedBox();

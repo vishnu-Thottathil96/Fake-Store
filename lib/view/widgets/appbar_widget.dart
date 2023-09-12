@@ -13,15 +13,14 @@ class AppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(
-            onPressed: () {
-              onBackButtonPressed;
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              size: 27,
-              color: iconColor,
-            )),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Icon(
+            Icons.shopify_sharp,
+            size: 40,
+            color: iconColor,
+          ),
+        ),
         const Spacer(),
         const CircleAvatar(
           radius: 15,

@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBarWidget(
-              iconColor: Colors.black,
+              iconColor: Colors.purple,
               onBackButtonPressed: () {},
             ),
             Padding(
