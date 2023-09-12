@@ -7,12 +7,10 @@ part 'bottom_navigation_controller_state.dart';
 class BottomNavigationControllerBloc extends Bloc<
     BottomNavigationControllerEvent, BottomNavigationControllerState> {
   BottomNavigationControllerBloc()
-      : super(const BottomNavigationControllerInitial(tabIndex: 0)) {
-    on<BottomNavigationControllerEvent>((event, emit) {
-      if (event is TabChange) {
-        print(event.tabIndex);
-        emit(BottomNavigationControllerInitial(tabIndex: event.tabIndex));
-      }
+      : super(const BottomNavigationControllerInitial()) {
+    on<TabChange>((event, emit) {
+      print(event.tabIndex);
+      emit(BottomNavigationControllerState(tabIndex: event.tabIndex));
     });
   }
 }

@@ -8,5 +8,5 @@ class BottomNavigationControllerState {
 
 class BottomNavigationControllerInitial
     extends BottomNavigationControllerState {
-  const BottomNavigationControllerInitial({required super.tabIndex});
+  const BottomNavigationControllerInitial() : super(tabIndex: 0);
 }

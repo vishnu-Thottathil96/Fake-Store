@@ -1,4 +1,5 @@
 import 'package:fakestore/constants/space.dart';
+import 'package:fakestore/model/product_model.dart';
 import 'package:fakestore/view/product/widgets/buy_now.dart';
 import 'package:fakestore/view/product/widgets/color_selector.dart';
 import 'package:fakestore/view/product/widgets/description.dart';
@@ -17,7 +18,8 @@ List<Color> colorlist = [
 ];
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+  const ProductPage({super.key, required this.productData});
+  final Product productData;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class ProductPage extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: screenHeight,
+                  height: screenHeight / 1.8,
                   width: screenWidth,
                 ),
                 PurpleContainer(
@@ -42,57 +44,74 @@ class ProductPage extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
-                const Positioned(
+                Positioned(
                   left: 15,
                   top: 60,
-                  child: Text(
-                    'Lenovo Idealpad',
-                    style: TextStyle(fontSize: 25, color: Colors.white54),
+                  child: SizedBox(
+                    width: screenWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Text(
+                        productData.title,
+                        maxLines: 4,
+                        style: const TextStyle(
+                            fontSize: 25, color: Colors.white54),
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
                   left: 120,
                   top: 200,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(25.0),
+                    elevation: 8,
                     child: ProductImage(
-                        screenWidth: screenWidth, screenHeight: screenHeight),
-                  ),
-                ),
-                const Positioned(
-                  top: 250,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: PrizeText(),
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                      image: productData.image,
+                    ),
                   ),
                 ),
                 Positioned(
-                  top: 470,
+                  top: 250,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Colors',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          const ColorSelection(),
-                          Description(screenWidth: screenWidth),
-                          height20,
-                          const Text(
-                            'Quantity :',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          const QuantitySelector(),
-                          height20,
-                          BuyNowSection(screenWidth: screenWidth)
-                        ]),
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: PrizeText(
+                      price: productData.price,
+                    ),
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Colors',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const ColorSelection(),
+                    Description(
+                      screenWidth: screenWidth,
+                      description: productData.description,
+                    ),
+                    height20,
+                    const Text(
+                      'Quantity :',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const QuantitySelector(),
+                    height20,
+                    BuyNowSection(
+                      screenWidth: screenWidth,
+                      productData: productData,
+                    ),
+                  ]),
             ),
           ],
         ),

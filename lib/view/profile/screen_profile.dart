@@ -33,14 +33,14 @@ class ProfileScreen extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 100,
                     backgroundImage: NetworkImage(
-                        'https://im.indiatimes.in/content/2022/Jan/Jacinda-Ardern1_61f262722240a.jpg?w=820&h=540&cc=1'),
+                        'https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?cs=srgb&dl=pexels-masha-raymers-2726111.jpg&fm=jpg'),
                   ),
                 ),
                 const Positioned(
-                  left: 80,
+                  left: 50,
                   top: 300,
                   child: Text(
-                    'Jacinda Ardern',
+                    'Sophia Anderson',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
                   ),
                 )

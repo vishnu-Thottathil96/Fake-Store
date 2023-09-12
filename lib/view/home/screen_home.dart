@@ -1,14 +1,17 @@
-import 'package:fakestore/view/product/screen_product_details.dart';
+import 'package:fakestore/controller/get%20product%20bloc/get_product_bloc_bloc.dart';
 import 'package:fakestore/view/product/widgets/category.dart';
 import 'package:fakestore/view/product/widgets/product_card.dart';
 import 'package:fakestore/view/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<GetProductBloc>().add(GetProductBlocEvent());
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -31,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(screenWidth / 30),
-              child: const SizedBox(
+              child: SizedBox(
                 height: 40,
                 child: CategorySection(),
               ),
@@ -39,29 +42,53 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(screenWidth / 30),
-                child: GridView.builder(
-                  scrollDirection: Axis.vertical,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                  ),
-                  itemCount: 20,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductPage(),
-                            ));
+                child: BlocBuilder<GetProductBloc, GetProductBlocState>(
+                    builder: (context, state) {
+                  if (state.isFetching) {
+                    return GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                        childAspectRatio: 2 / 1.75,
+                      ),
+                      itemCount: 8,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        );
                       },
-                      child: ProductCard(
-                          screenHeight: screenHeight, screenWidth: screenWidth),
                     );
-                  },
-                ),
+                  }
+                  return GridView.builder(
+                    scrollDirection: Axis.vertical,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                    ),
+                    itemCount: state.productList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return ProductCard(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        productData: state.productList[index],
+                      );
+                    },
+                  );
+                }),
               ),
             ),
           ],

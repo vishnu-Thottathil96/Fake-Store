@@ -1,5 +1,8 @@
 import 'package:fakestore/constants/space.dart';
+import 'package:fakestore/controller/cart/get_cart_bloc_bloc.dart';
+import 'package:fakestore/controller/category%20bloc/category_selector_bloc_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -7,6 +10,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
@@ -20,6 +24,7 @@ class CartScreen extends StatelessWidget {
                       icon: const Icon(
                         Icons.arrow_back,
                         size: 30,
+                        color: Colors.white,
                       ),
                     ),
                     const Expanded(
@@ -40,22 +45,67 @@ class CartScreen extends StatelessWidget {
               ),
               height20,
               Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return const ListTile(
-                      trailing: Text('\$100'),
-                      title: Text('Lenovo Idealpad'),
-                      leading: SizedBox(
-                        child: Image(image: AssetImage('assets/lap.jpg')),
-                      ),
-                    );
+                child: BlocBuilder<GetCartBlocBloc, GetCartBlocState>(
+                  builder: (context, state) {
+                    return state.cartItems.isNotEmpty
+                        ? ListView.separated(
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                subtitle: TextButton(
+                                  onPressed: (() {
+                                    context.read<GetCartBlocBloc>().add(
+                                        UpdateCartEvent(
+                                            addToCart: false,
+                                            product: state.cartItems[index]));
+                                  }),
+                                  child: const Text(
+                                    'Remove',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                                trailing:
+                                    Text('\$${state.cartItems[index].price}'),
+                                title: Text(state.cartItems[index].title
+                                    .substring(0, 11)),
+                                leading: SizedBox(
+                                  width: 100,
+                                  child: Image(
+                                      image: NetworkImage(
+                                          state.cartItems[index].image)),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            itemCount: state.cartItems.length,
+                          )
+                        : const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Empty Cart',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          );
                   },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                  itemCount: 20,
                 ),
               ),
+              BlocBuilder<GetCartBlocBloc, GetCartBlocState>(
+                builder: (context, state) {
+                  return state.cartItems.isNotEmpty
+                      ? SizedBox(
+                          height: 100,
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                                "Total Prize :\$ ${state.cartItems.fold<double>(0.0, (previousValue, element) => previousValue + (double.tryParse(element.price) ?? 0))}"),
+                          ),
+                        )
+                      : const SizedBox();
+                },
+              )
             ],
           ),
         ),
