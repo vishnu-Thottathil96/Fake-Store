@@ -3,6 +3,7 @@ import 'package:fakestore/model/product_model.dart';
 import 'package:fakestore/view/product/widgets/buy_now.dart';
 import 'package:fakestore/view/product/widgets/color_selector.dart';
 import 'package:fakestore/view/product/widgets/description.dart';
+import 'package:fakestore/view/product/widgets/fav_button.dart';
 import 'package:fakestore/view/product/widgets/prize_text.dart';
 import 'package:fakestore/view/product/widgets/product_image.dart';
 import 'package:fakestore/view/product/widgets/purple_container.dart';
@@ -105,7 +106,15 @@ class ProductPage extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const QuantitySelector(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const QuantitySelector(),
+                        FavoriteButtonSection(
+                          productModel: productData,
+                        ),
+                      ],
+                    ),
                     height20,
                     BuyNowSection(
                       screenWidth: screenWidth,

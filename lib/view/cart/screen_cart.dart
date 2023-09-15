@@ -1,6 +1,5 @@
 import 'package:fakestore/constants/space.dart';
 import 'package:fakestore/controller/cart/get_cart_bloc_bloc.dart';
-import 'package:fakestore/controller/category%20bloc/category_selector_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 class Api {
   static const getProductsUrl = 'https://fakestoreapi.com/products';
   static const addProductUrl = 'https://fakestoreapi.com/products';
+  static const putAndPatchUrl = 'https://fakestoreapi.com/products/';
 
   Future<List<Product>> getProducts() async {
     final response =
@@ -36,6 +37,37 @@ class Api {
     });
     if (response.statusCode == 200) {
       log('Status code : ${response.statusCode} POST Successfull');
+    }
+  }
+
+  Future<void> upDateProduct({
+    required Product product,
+    required bool put,
+  }) async {
+    if (put == true) {
+      final response =
+          await http.put(Uri.parse('$putAndPatchUrl${product.id}'), body: {
+        'title': product.title,
+        'price': product.price,
+        'description': product.description,
+        'image': product.image,
+        'category': product.categoy,
+      });
+      if (response.statusCode == 200) {
+        log('Status code : ${response.statusCode} PUT Successfull');
+      }
+    } else {
+      final response =
+          await http.patch(Uri.parse('$putAndPatchUrl${product.id}'), body: {
+        'title': product.title,
+        'price': product.price,
+        'description': product.description,
+        'image': product.image,
+        'category': product.categoy,
+      });
+      if (response.statusCode == 200) {
+        log('Status code : ${response.statusCode} PATCH Successfull');
+      }
     }
   }
 }
