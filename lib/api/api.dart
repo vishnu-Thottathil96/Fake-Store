@@ -35,6 +35,7 @@ class Api {
       'image': image,
       'category': category,
     });
+
     if (response.statusCode == 200) {
       log('Status code : ${response.statusCode} POST Successfull');
     }
@@ -68,6 +69,14 @@ class Api {
       if (response.statusCode == 200) {
         log('Status code : ${response.statusCode} PATCH Successfull');
       }
+    }
+  }
+
+  Future<void> deleteData({required Product product}) async {
+    final response =
+        await http.delete(Uri.parse('$putAndPatchUrl${product.id}'));
+    if (response.statusCode == 200) {
+      log('Status code : ${response.statusCode} Delete Successfull');
     }
   }
 }

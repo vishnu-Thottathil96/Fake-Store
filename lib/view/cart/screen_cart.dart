@@ -1,3 +1,4 @@
+import 'package:fakestore/api/api.dart';
 import 'package:fakestore/constants/space.dart';
 import 'package:fakestore/controller/cart/get_cart_bloc_bloc.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,8 @@ class CartScreen extends StatelessWidget {
                                         UpdateCartEvent(
                                             addToCart: false,
                                             product: state.cartItems[index]));
+                                    Api().deleteData(
+                                        product: state.cartItems[index]);
                                   }),
                                   child: const Text(
                                     'Remove',
